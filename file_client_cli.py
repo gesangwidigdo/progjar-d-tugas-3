@@ -2,6 +2,7 @@ import socket
 import json
 import base64
 import logging
+import os
 
 server_address=('0.0.0.0',7777)
 
@@ -62,6 +63,28 @@ def remote_get(filename=""):
     else:
         print("Gagal")
         return False
+    
+def remote_upload(filepath):
+    try:
+        with open(filepath, 'rb') as f:
+            content = base64.b64encode(f.read()).decode()
+        filename = os.path.basename(filepath)
+        command_str = f'UPLOAD {filename} {content}'
+        result = send_command(command_str)
+        if result['status'] == 'OK':
+            print('Upload Success')
+        else:
+            print('Upload Failed: ', result['data'])
+    except Exception as e:
+        print('Upload Error: ', str(e))
+
+def remote_delete(filename):
+    command_str = f'DELETE {filename}'
+    result = send_command(command_str)
+    if result['status'] == 'OK':
+        print('Successfully delete file')
+    else:
+        print('Delete file failed: ', result['data'])
 
 
 if __name__=='__main__':
