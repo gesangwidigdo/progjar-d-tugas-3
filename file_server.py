@@ -28,7 +28,7 @@ class ProcessTheClient(threading.Thread):
                 break
         
         if data_rcv:
-            hasil = fp.proses_string(data_rcv)
+            hasil = fp.proses_string(data_rcv.strip())
             hasil += "\r\n\r\n"
             self.connection.sendall(hasil.encode())
 
@@ -57,7 +57,7 @@ class Server(threading.Thread):
 
 
 def main():
-    svr = Server(ipaddress='0.0.0.0',port=6666)
+    svr = Server(ipaddress='0.0.0.0',port=42331)
     svr.start()
 
 

@@ -13,7 +13,7 @@ def send_command(command_str=""):
     logging.warning(f"connecting to {server_address}")
     try:
         logging.warning(f"sending message ")
-        sock.sendall(command_str.encode())
+        sock.sendall((command_str + "\r\n\r\n").encode())
         # Look for the response, waiting until socket is done (no more data)
         data_received="" #empty string
         while True:
@@ -32,9 +32,10 @@ def send_command(command_str=""):
         hasil = json.loads(data_received)
         logging.warning("data received from server:")
         return hasil
-    except:
-        logging.warning("error during data receiving")
-        return False
+    except Exception as e:
+        logging.warning(f"error during data receiving: {e}")
+        return dict(status="ERROR", data=str(e))
+
 
 
 def remote_list():
@@ -88,7 +89,7 @@ def remote_delete(filename):
 
 
 if __name__=='__main__':
-    server_address=('172.16.16.101',6666)
+    server_address=('172.16.16.101',42331)
     remote_list()
     remote_get('donalbebek.jpg')
 
