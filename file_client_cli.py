@@ -91,5 +91,7 @@ def remote_delete(filename):
 if __name__=='__main__':
     server_address=('172.16.16.101',42331)
     remote_list()
-    remote_get('donalbebek.jpg')
+    remote_get('pokijan.jpg')
+    remote_delete('rfc2616.pdf')
+    remote_upload('files/donalbebek.jpg')
 
